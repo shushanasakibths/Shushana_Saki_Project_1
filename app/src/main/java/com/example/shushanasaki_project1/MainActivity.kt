@@ -29,10 +29,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun randNum() {
         firstBox.text = (Random.nextInt(100) + 1).toString()
-        secondBox.text = (Random.nextInt(100) + 1).toString()
+        while (secondBox.text.toString() != firstBox.text.toString()) {
+            secondBox.text = (Random.nextInt(100) + 1).toString()
+        }
     }
 
-    private fun checkLargerNum() {
-
+    private fun checkLargerNum(x: Int, y: Int): Int {
+        if (x > y) {
+            return x
+        }
+        return y
     }
 }
