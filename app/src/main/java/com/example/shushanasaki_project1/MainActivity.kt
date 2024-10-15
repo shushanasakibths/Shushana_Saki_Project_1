@@ -7,7 +7,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
@@ -67,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         updateScoreAndStrikes()
         setTextColor(score, Color.BLACK)
         setTextColor(strikes, Color.BLACK)
-        mainView.setBackgroundColor(Color.YELLOW)
+        mainView.setBackgroundColor(Color.parseColor("#FFFDEF74"))
     }
 
     private fun generateRandomNumbers() {
@@ -85,17 +84,19 @@ class MainActivity : AppCompatActivity() {
 
         if (tappedNum == checkLargerNum()) {
             scoreCount++
-            setTextColor(score, Color.YELLOW)
+            setTextColor(score, Color.parseColor("#FFFDEF74"))
             mainView.setBackgroundColor(Color.GREEN)
         } else {
             strikeCount++
-            setTextColor(strikes, Color.YELLOW)
+            setTextColor(strikes, Color.parseColor("#FFFDEF74"))
             mainView.setBackgroundColor(Color.RED)
         }
 
         updateScoreAndStrikes()
         checkGameStatus()
-        generateRandomNumbers()
+        if (isGameActive) {
+            generateRandomNumbers()
+        }
     }
 
     private fun checkLargerNum(): Int {
@@ -117,6 +118,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
     private fun setEndGameColors(isWin: Boolean) {
         isGameActive = false
         if (isWin) {
@@ -126,10 +128,10 @@ class MainActivity : AppCompatActivity() {
             setTextColor(score, Color.BLACK)
             setTextColor(strikes, Color.RED)
         }
-        firstBox.text = ""
-        secondBox.text = ""
-        mainView.setBackgroundColor(Color.YELLOW)
+        mainView.setBackgroundColor(Color.parseColor("#FFFDEF74"))
         instructions.text = getString(R.string.restart_instruction)
+        firstBox.text = getString(R.string.first_box_text)
+        secondBox.text = getString(R.string.second_box_text)
     }
 
     private fun setTextColor(textView: TextView, color: Int) {

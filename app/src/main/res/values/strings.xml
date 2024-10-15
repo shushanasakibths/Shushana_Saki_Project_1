@@ -9,4 +9,6 @@
     <string name="win_message">Congrats, you won!</string>
     <string name="lose_message">Sorry, you lost!</string>
     <string name="restart_instruction">Tap restart to play again!</string>
+    <string name="second_box_text"> </string>
+    <string name="first_box_text"> </string>
 </resources>
