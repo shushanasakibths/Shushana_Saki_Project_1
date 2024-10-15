@@ -4,9 +4,9 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:layout_gravity="start"
     android:background="#FFFDEF74"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
 
@@ -14,8 +14,8 @@
         android:id="@+id/score_TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/score_string"
         android:layout_marginTop="16dp"
+        android:text="@string/score_string"
         android:textColor="@color/black"
         android:textSize="24sp" />
 
@@ -24,49 +24,50 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:textColor="@color/black"
         android:text="@string/strike_string"
+        android:textColor="@color/black"
         android:textSize="24sp" />
+
 
     <Button
         android:id="@+id/start_button"
-        android:layout_gravity="center"
-        android:layout_marginTop="32dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp"
         android:text="@string/start_button" />
 
     <TextView
         android:id="@+id/instruction_TextView"
-        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="32sp"
         android:layout_marginTop="32dp"
+        android:gravity="center"
+        android:text="@string/instruction_string"
         android:textColor="@color/black"
-        android:text="@string/instruction_string" />
+        android:textSize="32sp" />
 
     <TextView
         android:id="@+id/first_box"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:gravity="center"
-        android:background="#FF90D3F1"
         android:layout_gravity="center"
         android:layout_marginTop="48dp"
-        android:textSize="64sp"
-        android:text="" />
+        android:background="#FF90D3F1"
+        android:gravity="center"
+        android:text=""
+        android:textSize="64sp" />
 
     <TextView
         android:id="@+id/second_box"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:gravity="center"
-        android:background="#FFFFB342"
         android:layout_gravity="center"
-        android:textSize="64sp"
         android:layout_marginTop="48dp"
-        android:text="" />
+        android:background="#FFFFB342"
+        android:gravity="center"
+        android:text=""
+        android:textSize="64sp" />
 
 
 </LinearLayout>

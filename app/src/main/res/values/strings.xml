@@ -1,7 +1,12 @@
 <resources>
     <string name="app_name">Shushana Saki - Project 1</string>
-    <string name="score_string">Score: 0</string>
-    <string name="strike_string">Strikes: 0</string>
+    <string name="score_string">Score: %1$d</string>
+    <string name="strike_string">Strikes: %1$d</string>
     <string name="start_button">START</string>
+    <string name="restart_button">RESTART</string>
     <string name="instruction_string">Tap start to begin!</string>
+    <string name="instruction_tap_larger">Tap the larger number!</string>
+    <string name="win_message">Congrats, you won!</string>
+    <string name="lose_message">Sorry, you lost!</string>
+    <string name="restart_instruction">Tap restart to play again!</string>
 </resources>

@@ -5,18 +5,17 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import org.w3c.dom.Text
+import androidx.core.content.ContextCompat
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
     private var scoreCount: Int = 0
     private var strikeCount: Int = 0
-    var firstNum = 0;
-    var secondNum = 0;
+    private var firstNum = 0
+    private var secondNum = 0
+    private var isGameActive: Boolean = false
     private lateinit var mainView: LinearLayout
     private lateinit var startButton: Button
     private lateinit var firstBox: TextView
@@ -28,7 +27,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        initializeViews()
+        resetScoreAndStrikes()
 
+    }
+
+    private fun initializeViews() {
         mainView = findViewById(R.id.main)
         startButton = findViewById(R.id.start_button)
         firstBox = findViewById(R.id.first_box)
@@ -36,49 +40,104 @@ class MainActivity : AppCompatActivity() {
         instructions = findViewById(R.id.instruction_TextView)
         score = findViewById(R.id.score_TextView)
         strikes = findViewById(R.id.strike_TextView)
-
-        start()
-
+        setClickListeners()
     }
 
-    private fun randNum() {
-        firstNum = (Random.nextInt(100) + 1)
-        secondNum = (Random.nextInt(100) + 1)
+    private fun setClickListeners() {
+        startButton.setOnClickListener { startGame() }
+        firstBox.setOnClickListener {
+            if (isGameActive) onNumberTap(firstNum)
+        }
+        secondBox.setOnClickListener {
+            if (isGameActive) onNumberTap(secondNum)
+        }
+    }
+
+    private fun startGame() {
+        instructions.text = getString(R.string.instruction_tap_larger)
+        startButton.text = getString(R.string.restart_button)
+        isGameActive = true
+        resetScoreAndStrikes()
+        generateRandomNumbers()
+    }
+
+    private fun resetScoreAndStrikes() {
+        scoreCount = 0
+        strikeCount = 0
+        updateScoreAndStrikes()
+        setTextColor(score, Color.BLACK)
+        setTextColor(strikes, Color.BLACK)
+        mainView.setBackgroundColor(Color.YELLOW)
+    }
+
+    private fun generateRandomNumbers() {
+        firstNum = Random.nextInt(1, 100)
+        secondNum = Random.nextInt(1, 100)
         while (firstNum == secondNum) {
-            secondNum = (Random.nextInt(100) + 1)
+            secondNum = Random.nextInt(1, 100)
         }
         firstBox.text = firstNum.toString()
         secondBox.text = secondNum.toString()
     }
 
+    private fun onNumberTap(tappedNum: Int) {
+        if (scoreCount >= 10 || strikeCount >= 3) return
+
+        if (tappedNum == checkLargerNum()) {
+            scoreCount++
+            setTextColor(score, Color.YELLOW)
+            mainView.setBackgroundColor(Color.GREEN)
+        } else {
+            strikeCount++
+            setTextColor(strikes, Color.YELLOW)
+            mainView.setBackgroundColor(Color.RED)
+        }
+
+        updateScoreAndStrikes()
+        checkGameStatus()
+        generateRandomNumbers()
+    }
+
     private fun checkLargerNum(): Int {
-        if (firstNum > secondNum) {
-            return firstNum
-        }
-        return secondNum
+        return if (firstNum > secondNum) firstNum else secondNum
     }
 
-    private fun start() {
-        startButton.setOnClickListener {
-            instructions.text = "Tap the larger number!"
-            startButton.text = "Restart"
-            randNum()
-        }
-
-        firstBox.setOnClickListener {
-            if (checkLargerNum() == firstNum) {
-                mainView.setBackgroundColor(Color.parseColor("#8ACE00"))
-                scoreCount++
-                score.text = "Score: $scoreCount"
-            } else {
-                mainView.setBackgroundColor(Color.parseColor("#ED4337"))
-                strikeCount++
-                score.text = "Strike: $strikeCount"
-            }
-        }
-
-
+    private fun updateScoreAndStrikes() {
+        score.text = getString(R.string.score_string, scoreCount)
+        strikes.text = getString(R.string.strike_string, strikeCount)
     }
 
+    private fun checkGameStatus() {
+        if (scoreCount >= 10) {
+            showToast(getString(R.string.win_message))
+            setEndGameColors(true)
+        } else if (strikeCount >= 3) {
+            showToast(getString(R.string.lose_message))
+            setEndGameColors(false)
+        }
+    }
 
+    private fun setEndGameColors(isWin: Boolean) {
+        isGameActive = false
+        if (isWin) {
+            setTextColor(score, Color.GREEN)
+            setTextColor(strikes, Color.BLACK)
+        } else {
+            setTextColor(score, Color.BLACK)
+            setTextColor(strikes, Color.RED)
+        }
+        firstBox.text = ""
+        secondBox.text = ""
+        mainView.setBackgroundColor(Color.YELLOW)
+        instructions.text = getString(R.string.restart_instruction)
+    }
+
+    private fun setTextColor(textView: TextView, color: Int) {
+        textView.setTextColor(color)
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
 }
+
